@@ -1,0 +1,16 @@
+<ion-view view-title="Dashboard">
+    <ion-content class="padding">
+        <h2>Welcome to Ionic</h2>
+        <button ng-click="authenticate('facebook')" class="button button-block icon-left ion-social-facebook">
+            Sign in with Facebook
+        </button>
+        <button ng-click="getInfo()" class="button button-block icon-left ion-social-facebook">
+            get info
+        </button>
+        <button ng-click="login()" class="button button-block icon-left ion-social-facebook">
+         login
+        </button>
+
+        <p>{{fbData | json}}</p>
+    </ion-content>
+</ion-view>
