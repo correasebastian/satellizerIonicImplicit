@@ -1,7 +1,9 @@
+var au;
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicPopup, $auth, $http, $auth) {
+.controller('DashCtrl', function($scope, $ionicPopup, $auth, $http, $auth, $cordovaInAppBrowser,$rootScope) {
     $scope.fbData = {}
+    au = $auth;
     $scope.authenticate = function(provider) {
         $auth.authenticate(provider)
             .then(function(res) {
@@ -57,6 +59,44 @@ angular.module('starter.controllers', [])
         }
     }
 
+
+    $scope.logout = function() {
+        $auth.logout().then(rmFbSession)
+
+        function rmFbSession() {
+            var _aToken=$auth.getToken()
+            var options = {
+                location: 'no',
+                clearcache: 'yes',
+                toolbar: 'no'
+            };
+
+            if (typeof _aToken !== "undefined") {
+                //localhost
+                var url = 'https://www.facebook.com/logout.php?access_token=' + _aToken + '&next=http://localhost:3000/';
+                //app
+                if (ionic.Platform.isIOS() || ionic.Platform.isAndroid())
+                    url = 'https://www.facebook.com/logout.php?access_token=' + _aToken + '&next=/';
+
+                $cordovaInAppBrowser.open(url, '_blank', options)
+                    .then(function(event) {
+                        $cordovaInAppBrowser.close();
+                    })
+                    .catch(function(event) {
+                        $cordovaInAppBrowser.close();
+                    });
+
+
+                //Cerrar Pagina login Facebook
+                $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event) {
+                    // insert CSS via code / file
+                    $cordovaInAppBrowser.close();
+                });
+
+
+            }
+        }
+    }
 
 })
 

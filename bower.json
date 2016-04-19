@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "satellizer": "^0.14.0",
-    "angular-mocks": "^1.5.3"
+    "angular-mocks": "^1.5.3",
+    "ngCordova": "^0.1.24-alpha"
   }
 }
